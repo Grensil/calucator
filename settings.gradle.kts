@@ -21,4 +21,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "calculator"
 include(":app")
- 
+include(":feature:home")
+include(":feature:detail")

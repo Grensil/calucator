@@ -1,21 +1,18 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
 }
 
 android {
-    namespace = "com.example.calculator"
+    namespace = "com.example.home"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.example.calculator"
         minSdk = 23
-        targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -40,9 +37,6 @@ android {
 }
 
 dependencies {
-
-    implementation(project(":feature:home"))
-    implementation(project(":feature:detail"))
 
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)
