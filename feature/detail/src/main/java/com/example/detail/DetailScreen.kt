@@ -3,7 +3,6 @@ package com.example.detail
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,25 +19,41 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.shared.SharedViewModel
 
 @Composable
-fun DetailScreen(viewModel: SharedViewModel) {
+fun DetailScreen(viewModel: DetailViewModel) {
 
-    val dateList = viewModel.dateList.collectAsStateWithLifecycle()
+    val dateList = viewModel.dateList.collectAsStateWithLifecycle(initialValue = emptyList())
 
     Scaffold { paddingValues ->
-        LazyColumn(modifier = Modifier.fillMaxSize().padding(paddingValues), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
             items(dateList.value.size) { index ->
                 val item = dateList.value.get(index)
-                Row(Modifier.fillMaxWidth().size(40.dp), verticalAlignment = Alignment.CenterVertically) {
-                    Text(text = "date : ${item.date} content : ${item.content}", modifier = Modifier.weight(1f),
-                        overflow = TextOverflow.Ellipsis, maxLines = 1)
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .size(40.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "date : ${item.date} content : ${item.content}",
+                        modifier = Modifier.weight(1f),
+                        overflow = TextOverflow.Ellipsis,
+                        maxLines = 1
+                    )
 
-                    Image(imageVector = Icons.Default.Delete, contentDescription = null,
-                        modifier = Modifier.size(40.dp).clickable {
-                            viewModel.delete(index)
-                        })
+                    Image(
+                        imageVector = Icons.Default.Delete, contentDescription = null,
+                        modifier = Modifier
+                            .size(40.dp)
+                            .clickable {
+                                viewModel.delete(index)
+                            })
                 }
             }
         }

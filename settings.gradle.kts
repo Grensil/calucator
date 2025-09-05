@@ -23,5 +23,5 @@ rootProject.name = "calculator"
 include(":app")
 include(":feature:home")
 include(":feature:detail")
-
-include(":core:shared")
+include(":core:domain")
+include(":core:data")

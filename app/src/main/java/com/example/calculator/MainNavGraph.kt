@@ -14,6 +14,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -22,8 +23,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.calculator.di.createViewModelFactory
 import com.example.detail.DetailScreen
+import com.example.detail.DetailViewModel
 import com.example.home.HomeScreen
-import com.example.shared.SharedViewModel
+import com.example.home.HomeViewModel
 
 
 @Composable
@@ -64,16 +66,23 @@ fun MainScreen() {
 @Composable
 fun MainNavGraph(navController: NavHostController) {
 
-    val sharedViewModel: SharedViewModel = viewModel(
-        factory = createViewModelFactory { SharedViewModel() }
+    val context = LocalContext.current
+    val appModules = (context.applicationContext as MyApplication).getWikipediaModule()
+
+    val homeViewModel: HomeViewModel = viewModel(
+        factory = createViewModelFactory { HomeViewModel(appModules.addDiaryUseCase()) }
+    )
+
+    val detailViewModel: DetailViewModel = viewModel(
+        factory = createViewModelFactory { DetailViewModel(appModules.getDiaryListUseCase()) }
     )
 
     NavHost(navController = navController, startDestination = MainRoute.Home.path) {
         composable(route = MainRoute.Home.path) {
-            HomeScreen(sharedViewModel)
+            HomeScreen(homeViewModel)
         }
         composable(route = MainRoute.Detail.path) {
-            DetailScreen(sharedViewModel)
+            DetailScreen(detailViewModel)
         }
     }
 }

@@ -26,10 +26,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.shared.SharedViewModel
+import com.example.domain.AddDiaryUseCase
+import com.example.domain.DiaryDto
+import com.example.domain.DiaryRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 @Composable
-fun HomeScreen(viewModel: SharedViewModel) {
+fun HomeScreen(viewModel: HomeViewModel) {
 
     Scaffold(bottomBar = {
         Row(
@@ -64,7 +69,7 @@ fun HomeScreen(viewModel: SharedViewModel) {
 }
 
 @Composable
-fun HomeContent(innerPaddings: PaddingValues, viewModel: SharedViewModel) {
+fun HomeContent(innerPaddings: PaddingValues, viewModel: HomeViewModel) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -149,6 +154,23 @@ fun InputComponent(
 @Preview
 @Composable
 fun HomeScreenPreview() {
-    val previewViewModel = SharedViewModel()
+    val fakeDiaries = MutableStateFlow<List<DiaryDto>>(emptyList())
+    val fakeRepo = FakeRepository(fakeDiaries)
+    val previewViewModel = HomeViewModel(AddDiaryUseCase(fakeRepo))
     HomeScreen(viewModel = previewViewModel)
+}
+
+class FakeRepository(override val diaries: StateFlow<List<DiaryDto>>) : DiaryRepository {
+    override fun addDiary(diary: DiaryDto) {
+        TODO("Not yet implemented")
+    }
+
+    override fun getDiaryList(): Flow<List<DiaryDto>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun deleteDiaryList(index: Int) {
+        TODO("Not yet implemented")
+    }
+
 }
