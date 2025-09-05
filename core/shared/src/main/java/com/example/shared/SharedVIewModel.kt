@@ -1,9 +1,10 @@
-package com.example.home
+package com.example.shared
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlin.collections.plus
 
 sealed class UiState {
     object Idle : UiState()
@@ -13,9 +14,9 @@ sealed class UiState {
 }
 
 data class DiaryDto(val date: String,
-    val content: String)
+                    val content: String)
 
-class HomeViewModel() : ViewModel() {
+class SharedViewModel() : ViewModel() {
 
     private val _dateText = MutableStateFlow<String>("")
     val dateText = _dateText.asStateFlow()
@@ -60,4 +61,9 @@ class HomeViewModel() : ViewModel() {
         }
     }
 
+    fun delete(index: Int) {
+        _dateList.update { currentList ->
+            currentList.filterIndexed { i, _ -> i != index }
+        }
+    }
 }

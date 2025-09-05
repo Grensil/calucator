@@ -15,21 +15,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
-import com.example.calculator.MainRouteConstants.USER_DETAIL_PATTERN
-import com.example.calculator.MainRouteConstants.USER_ID
 import com.example.calculator.di.createViewModelFactory
 import com.example.detail.DetailScreen
-import com.example.detail.DetailViewModel
 import com.example.home.HomeScreen
-import com.example.home.HomeViewModel
+import com.example.shared.SharedViewModel
 
 
 @Composable
@@ -40,19 +34,23 @@ fun MainScreen() {
     Scaffold(
         modifier = Modifier.fillMaxSize(), bottomBar = {
             NavigationBar(modifier = Modifier.height(60.dp)) {
-                Box(modifier = Modifier
-                    .weight(1f)
-                    .clickable {
-                        navController.navigate(MainRoute.Home.path)
-                    }, contentAlignment = Alignment.Center) {
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .clickable {
+                            navController.navigate(MainRoute.Home.path)
+                        }, contentAlignment = Alignment.Center
+                ) {
                     Image(imageVector = Icons.Default.DateRange, contentDescription = null)
                 }
 
-                Box(modifier = Modifier
-                    .weight(1f)
-                    .clickable {
-                        navController.navigate(MainRoute.Detail.path)
-                    }, contentAlignment = Alignment.Center) {
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .clickable {
+                            navController.navigate(MainRoute.Detail.path)
+                        }, contentAlignment = Alignment.Center
+                ) {
                     Image(imageVector = Icons.AutoMirrored.Filled.List, contentDescription = null)
                 }
             }
@@ -66,19 +64,16 @@ fun MainScreen() {
 @Composable
 fun MainNavGraph(navController: NavHostController) {
 
-    val homeViewModel: HomeViewModel = viewModel(
-        factory = createViewModelFactory { HomeViewModel() }
-    )
-    val detailViewModel: DetailViewModel = viewModel(
-        factory = createViewModelFactory { DetailViewModel() }
+    val sharedViewModel: SharedViewModel = viewModel(
+        factory = createViewModelFactory { SharedViewModel() }
     )
 
     NavHost(navController = navController, startDestination = MainRoute.Home.path) {
         composable(route = MainRoute.Home.path) {
-            HomeScreen(homeViewModel)
+            HomeScreen(sharedViewModel)
         }
-        composable(route = MainRoute.Detail.path) { backStackEntry ->
-            DetailScreen(detailViewModel)
+        composable(route = MainRoute.Detail.path) {
+            DetailScreen(sharedViewModel)
         }
     }
 }

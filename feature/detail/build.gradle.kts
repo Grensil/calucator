@@ -38,6 +38,8 @@ android {
 
 dependencies {
 
+    implementation(project(":core:shared"))
+
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

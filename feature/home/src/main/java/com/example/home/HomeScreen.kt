@@ -26,9 +26,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.shared.SharedViewModel
 
 @Composable
-fun HomeScreen(viewModel: HomeViewModel) {
+fun HomeScreen(viewModel: SharedViewModel) {
 
     Scaffold(bottomBar = {
         Row(
@@ -63,7 +64,7 @@ fun HomeScreen(viewModel: HomeViewModel) {
 }
 
 @Composable
-fun HomeContent(innerPaddings: PaddingValues, viewModel: HomeViewModel) {
+fun HomeContent(innerPaddings: PaddingValues, viewModel: SharedViewModel) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -101,7 +102,10 @@ fun HomeContent(innerPaddings: PaddingValues, viewModel: HomeViewModel) {
 
 @Composable
 fun InputComponent(
-    description: String, singleLine: Boolean, value: String, onValueChange: (String) -> Unit
+    description: String,
+    singleLine: Boolean,
+    value: String,
+    onValueChange: (String) -> Unit
 ) {
 
     Row(
@@ -145,6 +149,6 @@ fun InputComponent(
 @Preview
 @Composable
 fun HomeScreenPreview() {
-    val previewViewModel = HomeViewModel()
+    val previewViewModel = SharedViewModel()
     HomeScreen(viewModel = previewViewModel)
 }
