@@ -19,6 +19,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -157,6 +158,12 @@ fun HomeScreenPreview() {
     val fakeDiaries = MutableStateFlow<List<DiaryDto>>(emptyList())
     val fakeRepo = FakeRepository(fakeDiaries)
     val previewViewModel = HomeViewModel(AddDiaryUseCase(fakeRepo))
+
+    LaunchedEffect(Unit) {
+        previewViewModel.updateDate("1")
+        previewViewModel.updateContent("2\n3456788\n가나다라마바사\n%!@#!@#!\n'\n" +
+                "QQQWASDASD!@#!@")
+    }
     HomeScreen(viewModel = previewViewModel)
 }
 
